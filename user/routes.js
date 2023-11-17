@@ -15,6 +15,13 @@ function UsersRoutes(app) {
 
         res.send(user);
     });
+
+    app.put("/api/user/:username", (req, res) => {
+        const { username } = req.params;
+        const user = req.body;
+        db.users = db.users.map((u) => u.username === username ? { ...u, ...user } : u);
+        res.sendStatus(204);
+    });
 }
 
 export default UsersRoutes;
