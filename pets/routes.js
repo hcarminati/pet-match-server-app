@@ -1,24 +1,39 @@
-import db from "../Database/index.js";
+import * as dao from "./dao.js";
 
 function PetRoutes(app) {
-    app.get("/api/pets", (req, res) => {
-        const { pid } = req.params;
-        const pet = db.admin_selected_pets
-            .filter((p) => p.id === pid);
-        res.send(db.admin_selected_pets);
-    });
-    app.get("/api/pets/:pid", (req, res) => {
-        const { pid } = req.params;
-        const pet = db.admin_selected_pets
-            .filter((p) => p.id === pid);
-        res.send(pet);
-    });
-    app.get("/api/pets/:pid", (req, res) => {
-        const { pid } = req.params;
-        const pet = db.admin_selected_pets
-            .filter((p) => p.id === pid);
-        res.send(pet);
-    });
+    const findAllPets = async (req, res) => {
+        const allPets = await dao.findAllPets();
+        res.json(allPets);
+    };
+
+    const findPetById = async (req, res) => {
+        const user = await dao.findPetById(req.params.pid);
+        res.json(user);
+    };
+
+    const findPetByOriginalId = async (req, res) => {
+        const user = await dao.findPetByOriginalId(req.params.pid);
+        res.json(user);
+    };
+
+    const addPet = async (req, res) => {
+        try {
+            const newPet = await dao.addPet(req.body); // Assuming req.body contains the new pet data
+            res.status(201).json({ message: "Pet created successfully", pet: newPet });
+        } catch (error) {
+            res.status(500).json({ message: "Failed to create pet", error: error.message });
+        }
+    };
+
+    const deletePet = async (req, res) => {
+        const status = await dao.deletePet(req.params.petId);
+        res.json(status);
+    };
+
+    app.get("/api/pets", findAllPets);
+    app.get("/api/pets/original/:pid", findPetByOriginalId);
+    app.post("/api/pets", addPet);
+    app.delete("/api/pets/:petId", deletePet);
 }
 
 export default PetRoutes;
