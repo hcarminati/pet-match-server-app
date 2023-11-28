@@ -1,9 +1,39 @@
 import * as dao from "./dao.js";
+import * as commentsDao from "../comments/dao.js";
+import * as likesDao from "../likes/dao.js";
 
 function UsersRoutes(app) {
     const findAllUsers = async (req, res) => {
         const allUsers = await dao.findAllUsers();
-        res.json(allUsers);
+        const allComments = await commentsDao.findAllComments();
+        const allLikes = await likesDao.findAllLikes();
+
+        const commentsByUser = {};
+        const likesByUser = {};
+
+        allComments.forEach(comment => {
+            const userId = comment.userId.toString();
+            if (!commentsByUser[userId]) {
+                commentsByUser[userId] = [];
+            }
+            commentsByUser[userId].push(comment);
+        });
+
+        allLikes.forEach(like => {
+            const userId = like.userId.toString();
+            if (!likesByUser[userId]) {
+                likesByUser[userId] = [];
+            }
+            likesByUser[userId].push(like);
+        });
+
+        const usersWithCommentsAndLikes = allUsers.map(user => ({
+            ...user.toObject(),
+            comments: commentsByUser[user._id.toString()] || [],
+            likes: likesByUser[user._id.toString()] || [],
+        }));
+
+        res.json(usersWithCommentsAndLikes);
     };
     const findUserByUsername = async (req, res) => {
         const user = await dao.findUserByUsername(req.params.username);

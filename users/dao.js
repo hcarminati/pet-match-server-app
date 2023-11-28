@@ -1,4 +1,5 @@
 import model from "./model.js";
+
 export const findAllUsers = () => model.find();
 export const findUserByUsername = (username) => model.findOne({ username: username });
 export const updateUserByUsername = (username, updatedUserData) =>
