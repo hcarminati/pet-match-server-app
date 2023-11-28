@@ -21,7 +21,6 @@ function CommentRoutes(app) {
             const newComment = await dao.addComment(req.body);
             res.status(201).json({ message: "Comment poster successfully" });
         } catch (error) {
-            console.log(error)
             res.status(500).json({ message: "Failed to post comment", error: error.message });
         }
     };
