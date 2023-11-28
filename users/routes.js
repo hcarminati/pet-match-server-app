@@ -78,8 +78,6 @@ function UsersRoutes(app) {
             // Store the new user in the database
             const createdUser = await dao.createUser(newUser);
             req.session['currentUser'] = createdUser;
-            res.json(createdUser);
-
             res.status(201).json({ message: "Signup successful", user: createdUser });
         } catch (error) {
             res.status(500).json({ message: "Signup failed", error: error.message });
