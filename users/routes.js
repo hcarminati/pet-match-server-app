@@ -82,7 +82,6 @@ function UsersRoutes(app) {
     };
     const getAccount = async (req, res) => {
         res.json(req.session['currentUser']);
-        console.log("GETACCOUNT---", req.session['currentUser'])
     };
 
 

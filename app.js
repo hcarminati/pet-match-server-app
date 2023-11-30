@@ -7,6 +7,7 @@ import mongoose from "mongoose";
 import session from "express-session";
 import CommentRoutes from "./comments/routes.js";
 import LikeRoutes from "./likes/routes.js";
+import AdoptedPetRoutes from "./adoptedPets/routes.js";
 
 mongoose.connect("mongodb://127.0.0.1:27017/pet-match");
 
@@ -37,6 +38,7 @@ app.use(session(sessionOptions));
 
 app.use(express.json());
 PetRoutes(app);
+AdoptedPetRoutes(app);
 CommentRoutes(app);
 LikeRoutes(app);
 UsersRoutes(app);
