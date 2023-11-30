@@ -11,7 +11,6 @@ import LikeRoutes from "./likes/routes.js";
 mongoose.connect("mongodb://127.0.0.1:27017/pet-match");
 
 const app = express();
-app.use(express.json());
 app.use(
     cors({
              credentials: true,
@@ -25,13 +24,15 @@ const sessionOptions = {
     resave: false,
     saveUninitialized: false,
 };
-if (process.env.NODE_ENV !== "development") {
-    sessionOptions.proxy = true;
-    sessionOptions.cookie = {
-        sameSite: "none",
-        secure: true,
-    };
-}
+// !!! Set to "development"
+
+// if (process.env.NODE_ENV !== "development") {
+//     sessionOptions.proxy = true;
+//     sessionOptions.cookie = {
+//         sameSite: "none",
+//         secure: true,
+//     };
+// }
 app.use(session(sessionOptions));
 
 app.use(express.json());

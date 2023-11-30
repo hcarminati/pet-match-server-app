@@ -5,35 +5,7 @@ import * as likesDao from "../likes/dao.js";
 function UsersRoutes(app) {
     const findAllUsers = async (req, res) => {
         const allUsers = await dao.findAllUsers();
-        const allComments = await commentsDao.findAllComments();
-        const allLikes = await likesDao.findAllLikes();
-
-        const commentsByUser = {};
-        const likesByUser = {};
-
-        allComments.forEach(comment => {
-            const userId = comment.userId.toString();
-            if (!commentsByUser[userId]) {
-                commentsByUser[userId] = [];
-            }
-            commentsByUser[userId].push(comment);
-        });
-
-        allLikes.forEach(like => {
-            const userId = like.userId.toString();
-            if (!likesByUser[userId]) {
-                likesByUser[userId] = [];
-            }
-            likesByUser[userId].push(like);
-        });
-
-        const usersWithCommentsAndLikes = allUsers.map(user => ({
-            ...user.toObject(),
-            comments: commentsByUser[user._id.toString()] || [],
-            likes: likesByUser[user._id.toString()] || [],
-        }));
-
-        res.json(usersWithCommentsAndLikes);
+        res.json(allUsers);
     };
     const findUserByUsername = async (req, res) => {
         const user = await dao.findUserByUsername(req.params.username);
@@ -95,30 +67,39 @@ function UsersRoutes(app) {
 
         req.session['currentUser'] = user;
         res.json(user);
+
+        console.log("LOGIN---", req.session['currentUser'])
     };
 
-    const signout = (req, res) => {
+    const logout = (req, res) => {
         req.session.destroy();
         res.json(200);
     };
 
     const account = async (req, res) => {
         res.json(req.session['currentUser']);
+        console.log("ACCOUNT---", req.session['currentUser'])
     };
     const getAccount = async (req, res) => {
         res.json(req.session['currentUser']);
+        console.log("GETACCOUNT---", req.session['currentUser'])
     };
 
+
+
+    //users
     app.get("/api/users", findAllUsers);
     app.get("/api/users/:username", findUserByUsername);
     app.get("/api/users/id/:id", findUserById);
     app.put("/api/users/id/:id", updateUserById);
     app.delete("/api/users/id/:id", deleteUser);
 
+    //user
     app.put("/api/user/:username", updateUserByUsername)
     app.post("/api/user/register", registerUser);
     app.post("/api/user/login", loginUser);
-    app.post("/api/user/signout", signout);
+    app.post("/api/user/logout", logout);
+
     app.post("/api/user/account", account);
     app.get("/api/user/account", getAccount);
 }

@@ -12,3 +12,7 @@ export const createUser = (userData) => model.create(userData);
 export const findUserByCredentials = (usr, pass) =>
     model.findOne({ username: usr, password: pass });
 export const deleteUser = (userId) => model.deleteOne({ _id: userId });
+export const adoptPet = (userId, petId, updatedUserData) =>
+    model.updateOne({ _id: userId }, { $set: updatedUserData });
+
+

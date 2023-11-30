@@ -30,10 +30,17 @@ function PetRoutes(app) {
         res.json(status);
     };
 
+    const updatePetById = async (req, res) => {
+        const { petId } = req.params;
+        const status = await dao.updatePetById(petId, req.body);
+        res.json(status);
+    };
+
     app.get("/api/pets", findAllPets);
     app.get("/api/pets/original/:pid", findPetByOriginalId);
     app.post("/api/pets", addPet);
     app.delete("/api/pets/:petId", deletePet);
+    app.put("/api/pets/:petId", updatePetById)
 }
 
 export default PetRoutes;
