@@ -67,8 +67,6 @@ function UsersRoutes(app) {
 
         req.session['currentUser'] = user;
         res.json(user);
-
-        console.log("LOGIN---", req.session['currentUser'])
     };
 
     const logout = (req, res) => {
@@ -78,7 +76,6 @@ function UsersRoutes(app) {
 
     const account = async (req, res) => {
         res.json(req.session['currentUser']);
-        console.log("ACCOUNT---", req.session['currentUser'])
     };
     const getAccount = async (req, res) => {
         res.json(req.session['currentUser']);

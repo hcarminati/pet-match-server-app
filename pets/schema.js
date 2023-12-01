@@ -40,5 +40,6 @@ const avaliablePetSchema = new mongoose.Schema({ originalId: String,
                                           published_at: Date,
                                           tags:[String],
                                           type: String,
+                                          uploader: String,
                                       });
 export default avaliablePetSchema;

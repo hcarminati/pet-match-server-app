@@ -37,6 +37,7 @@ function PetRoutes(app) {
     };
 
     app.get("/api/pets", findAllPets);
+    app.get("/api/pets/id/:pid", findPetById);
     app.get("/api/pets/original/:pid", findPetByOriginalId);
     app.post("/api/pets", addPet);
     app.delete("/api/pets/:petId", deletePet);
