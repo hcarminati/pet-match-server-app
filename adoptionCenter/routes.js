@@ -7,21 +7,23 @@ function AdoptionCenterRoutes(app) {
     };
 
     const findAdoptionCenterById = async (req, res) => {
-        const user = await dao.findAdoptionCenterById(req.params.adoptionCenterId);
-        res.json(user);
+        const { adoptionCenterId } = req.params;
+        const adoptionCenter = await dao.findAdoptionCenterById(adoptionCenterId);
+        res.json(adoptionCenter);
     };
 
     const addAdoptionCenter = async (req, res) => {
         try {
-            const newPet = await dao.addAdoptionCenter(req.body); // Assuming req.body contains the new pet data
-            res.status(201).json({ message: "Adoption center created successfully", pet: newPet });
+            const newAdoptionCenter = await dao.addAdoptionCenter(req.body);
+            res.status(201).json({ message: "Adoption center created successfully", adoptionCenter: newAdoptionCenter });
         } catch (error) {
             res.status(500).json({ message: "Failed to create Adoption center", error: error.message });
         }
     };
 
     const deleteAdoptionCenter = async (req, res) => {
-        const status = await dao.deleteAdoptionCenter(req.params.petId);
+        const { adoptionCenterId } = req.params;
+        const status = await dao.deleteAdoptionCenter(adoptionCenterId);
         res.json(status);
     };
 
@@ -32,10 +34,10 @@ function AdoptionCenterRoutes(app) {
     };
 
     app.get("/api/adoptionCenters", findAllAdoptionCenters);
-    app.get("/api/adoptionCenters/id/:adoptionCenterId", findAdoptionCenterById);
+    app.get("/api/adoptionCenters/:adoptionCenterId", findAdoptionCenterById);
     app.post("/api/adoptionCenters", addAdoptionCenter);
     app.delete("/api/adoptionCenters/:adoptionCenterId", deleteAdoptionCenter);
-    app.put("/api/adoptionCenters/:adoptionCenterId", updateAdoptionCenterById)
+    app.put("/api/adoptionCenters/:adoptionCenterId", updateAdoptionCenterById);
 }
 
 export default AdoptionCenterRoutes;
