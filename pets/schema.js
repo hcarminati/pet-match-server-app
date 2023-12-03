@@ -42,5 +42,6 @@ const avaliablePetSchema = new mongoose.Schema({ originalId: String,
                                           type: String,
                                           uploader: String,
                                           adoptionCenter: String,
+                                          medicalRecord: String,
                                       });
 export default avaliablePetSchema;

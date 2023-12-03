@@ -31,8 +31,8 @@ function MedicalRecordRoutes(app) {
         res.json(status);
     };
 
-    app.get("/api/medicalRecord", findAllMedicalRecords);
-    app.get("/api/medicalRecord/id/:medicalRecordId", findMedicalRecordById);
+    app.get("/api/medicalRecords", findAllMedicalRecords);
+    app.get("/api/medicalRecords/id/:medicalRecordId", findMedicalRecordById);
     app.post("/api/medicalRecords", addMedicalRecord);
     app.delete("/api/medicalRecords/:medicalRecordId", deleteMedicalRecord);
     app.put("/api/medicalRecords/:medicalRecordId", updateMedicalRecordById)
